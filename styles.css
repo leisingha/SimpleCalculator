@@ -23,7 +23,7 @@
     padding: 10px;
 }
 
-.keypad div div{
+.keypad div button{
     height: 70px;
     width: 70px;
     border: 1px black solid;
