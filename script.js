@@ -6,22 +6,24 @@ let memory = {
 }
 
 function add(a,b){
-    memory.result = parseFloat(a)+parseFloat(b);
-    console.log(memory.result);
+    memory.result = roundToFiveDecimals(parseFloat(a)+parseFloat(b));
 }
 
 function subtract(a,b){
-    memory.result = parseFloat(a)-parseFloat(b);
+    memory.result = roundToFiveDecimals(parseFloat(a)-parseFloat(b));
 }
 
 function multiply(a,b){
-    memory.result = parseFloat(a) * parseFloat(b);
+    memory.result = roundToFiveDecimals(parseFloat(a) * parseFloat(b));
 }
 
 function divide(a,b){
-    memory.result = parseFloat(a) / parseFloat(b);
+    memory.result = roundToFiveDecimals(parseFloat(a) / parseFloat(b));
 }
 
+function roundToFiveDecimals(num) {
+    return (Math.round(num * 100000) / 100000).toString();
+}
 
 function operate(){
     switch (memory.operator) {
@@ -47,6 +49,9 @@ function operate(){
 function populateDisplay(val){
     displayContent = document.querySelector('.screen');
     displayContent.textContent = val;
+    (val.includes('.')) ? toggleDecimalOff() : toggleDecimalOn();
+    
+    
     
 }
 
@@ -55,7 +60,7 @@ function clearScreen(){
     memory.operand1 = '';
     memory.operand2 = '';
     memory.operator = null;
-    memory.result = null
+    memory.result = null;
 }
 
 function modifyScreenValue(callback){
@@ -66,6 +71,14 @@ function modifyScreenValue(callback){
                     populateDisplay(memory[key]);
                 }
             }
+}
+
+function toggleDecimalOn(){
+    document.querySelector('#decimal').disabled = false;
+}
+
+function toggleDecimalOff(){
+    document.querySelector('#decimal').disabled = true;
 }
 
 function handleInput(val){
@@ -97,11 +110,15 @@ function handleInput(val){
             }
             operate();
             break;
-        case '.':
-            //some other function//
-
+        // case '.':
+        //     toggleDecimalOff();
         default:
-            if (!memory.operator){
+            if(memory.operator != null && memory.result !=null){
+                clearScreen();
+                memory.operand1 += val;
+                populateDisplay(memory.operand1);
+            }
+            else if (!memory.operator){
                 memory.operand1 += val;
                 populateDisplay(memory.operand1);
             }else{
