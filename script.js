@@ -47,7 +47,7 @@ function operate(){
 }
 
 function populateDisplay(val){
-    displayContent = document.querySelector('.screen');
+    let displayContent = document.querySelector('.screen');
     displayContent.textContent = val;
     (val.includes('.')) ? toggleDecimalOff() : toggleDecimalOn();
     
