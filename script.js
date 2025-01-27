@@ -110,8 +110,6 @@ function handleInput(val){
             }
             operate();
             break;
-        // case '.':
-        //     toggleDecimalOff();
         default:
             if(memory.operator != null && memory.result !=null){
                 clearScreen();
