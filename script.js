@@ -6,20 +6,20 @@ let memory = {
 }
 
 function add(a,b){
-    memory.result = parseInt(a)+parseInt(b);
+    memory.result = parseFloat(a)+parseFloat(b);
     console.log(memory.result);
 }
 
 function subtract(a,b){
-    memory.result = parseInt(a)-parseInt(b);
+    memory.result = parseFloat(a)-parseFloat(b);
 }
 
 function multiply(a,b){
-    memory.result = parseInt(a) * parseInt(b);
+    memory.result = parseFloat(a) * parseFloat(b);
 }
 
 function divide(a,b){
-    memory.result = parseInt(a) / parseInt(b);
+    memory.result = parseFloat(a) / parseFloat(b);
 }
 
 
@@ -58,24 +58,27 @@ function clearScreen(){
     memory.result = null
 }
 
+function modifyScreenValue(callback){
+    let currentval = document.querySelector('.screen').textContent;
+            for(let key in memory){
+                if(currentval == memory[key]){
+                    memory[key] = callback(currentval);
+                    populateDisplay(memory[key]);
+                }
+            }
+}
+
 function handleInput(val){
     switch (val) {
         case 'C':
             clearScreen();
             break;
         case 'BACKSPACE':
-            let currentval = document.querySelector('.screen').textContent;
-            for(let key in memory){
-                if(currentval == memory[key]){
-                    memory[key] = currentval.slice(0, currentval.length-1);
-                    populateDisplay(memory[key]);
-                }
-            }
-            
+            modifyScreenValue(currentval => currentval.slice(0, currentval.length-1));          
             break;
         case '%':
-            //some other function//
-            break
+            modifyScreenValue(currentval => (parseFloat(currentval)/100).toString());
+            break;
         case '/':
         case '*':
         case '+':
@@ -113,16 +116,6 @@ let buttons = document.querySelectorAll('button');
 
 buttons.forEach((button) => button.addEventListener('click', () => {
     let val;
-
-    // if(button.textContent == '÷'){
-    //     val = '/';
-    // }else if(button.textContent == '×'){
-    //     val = '*';
-    // }else if(button.textContent == 'DEL'){
-    //     val = 'BACKSPACE'
-    // }else{
-    //     val = button.textContent;
-    // }
     
     switch (button.textContent){
         case '÷':
