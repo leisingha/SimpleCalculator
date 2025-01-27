@@ -7,6 +7,7 @@ let memory = {
 
 function add(a,b){
     memory.result = parseInt(a)+parseInt(b);
+    console.log(memory.result);
 }
 
 function subtract(a,b){
@@ -32,11 +33,11 @@ function operate(){
             subtract(memory.operand1, memory.operand2);
             populateDisplay(memory.result);
             break;
-        case '×' :
+        case '*' :
             multiply(memory.operand1, memory.operand2);
             populateDisplay(memory.result);
             break;
-        case '÷' :
+        case '/' :
             divide(memory.operand1, memory.operand2);
             populateDisplay(memory.result);
             break;
@@ -61,21 +62,41 @@ function handleInput(val){
     switch (val) {
         case 'C':
             clearScreen();
-        case 'DEL':
-            //some other function//
+            break;
+        case 'BACKSPACE':
+            let currentval = document.querySelector('.screen').textContent;
+            for(let key in memory){
+                if(currentval == memory[key]){
+                    memory[key] = currentval.slice(0, currentval.length-1);
+                    populateDisplay(memory[key]);
+                }
+            }
+            
+            break;
         case '%':
-        case '÷':
-        case '×':
+            //some other function//
+            break
+        case '/':
+        case '*':
         case '+':
         case '-':
+            if(memory.operand2 != ''){
+                operate();
+                memory.operand1 = memory.result.toString();
+                memory.operand2 = '';
+                memory.result = null;
+            }
             memory.operator = val;
             break;
         case '=':
+            if (memory.operand1 == ''|| memory.operand2 == ''){
+                break;
+            }
             operate();
-            console.log(memory.result);
             break;
         case '.':
             //some other function//
+
         default:
             if (!memory.operator){
                 memory.operand1 += val;
@@ -91,8 +112,41 @@ function handleInput(val){
 let buttons = document.querySelectorAll('button');
 
 buttons.forEach((button) => button.addEventListener('click', () => {
+    let val;
+
+    // if(button.textContent == '÷'){
+    //     val = '/';
+    // }else if(button.textContent == '×'){
+    //     val = '*';
+    // }else if(button.textContent == 'DEL'){
+    //     val = 'BACKSPACE'
+    // }else{
+    //     val = button.textContent;
+    // }
     
-    handleInput(button.textContent);
+    switch (button.textContent){
+        case '÷':
+            val = '/';
+            break;
+        case '×':
+            val = '*';
+            break;
+        case 'DEL':
+            val = 'BACKSPACE';
+            break;
+        default:
+            val = button.textContent;
+    }
+
+    handleInput(val);
 
 }));
+
+document.addEventListener( 'keydown',(event) => {
+    let val = event.key.toUpperCase();
+    const acceptedValues = ['BACKSPACE','C','%','/','*','+','-','0','1','2','3','4','5','6','7','8','9','.']
+    if (acceptedValues.includes(val)){
+        handleInput(val);
+    }
+})
 
