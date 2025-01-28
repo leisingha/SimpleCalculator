@@ -2,10 +2,28 @@
     box-sizing: border-box;
 }
 
+
+section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 700px;
+}
+
 .calculator{
     width: 350px;
     height: 550px;
     border: 1px solid black;
+    background-color: black;
+    color: white;
+    border-radius: 30px;
+    
+}
+
+.html, body{
+    margin: 0;
+    padding: 0;
+    font-family:'Courier New', Courier, monospace
 }
 
 .screen{
@@ -13,24 +31,36 @@
     display: flex;
     align-items: end;
     justify-content: end;
+    padding: 20px;
+    font-size: 50px;
     
 }
 
 .keypad{
     height: 400px;
     width: 350px;
-    border: 1px solid black;
-    padding: 10px;
 }
 
 .keypad div button{
     height: 70px;
     width: 70px;
-    border: 1px black solid;
+    border-radius: 50px;
+    border-style: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: larger;
+    background-color: grey;
+    color: white;
     
 }
 
 .keypad .keyrow{
     display: flex;
-
+    justify-content: space-evenly;
+    margin-top: 7.5px;
 }
+
+#equal{
+    flex-basis: 155px;
+    background-color: orange;
+}
+
